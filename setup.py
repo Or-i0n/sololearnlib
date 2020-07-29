@@ -7,18 +7,18 @@ setup(
     licence="MIT",
     description="Retrieve public data from 'sololearn.com'.",
     author="OR!ON",
-    author_email='orionconner00@gmail.com',      # Type in your E-Mail
-    url='https://github.com/user/reponame',   # Provide either the link to your github or to your website
-    download_url='https://github.com/user/reponame/archive/v_01.tar.gz',    # I explain this later on
+    author_email='orionconner00@gmail.com', 
+    url='https://github.com/Or-i0n/sololearn_package',
+    download_url='https://github.com/user/reponame/archive/v_01.tar.gz',
     keywords=["sololearn", 'web scrape', 'api', "public data"],
     install_requires=[           
           'bs4',
       ],
   classifiers=[
-    'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
-    'Intended Audience :: Developers',      # Define that your audience are developers
+    'Development Status :: 3 - Alpha',      
+    'Intended Audience :: Developers',      
     'Topic :: Software Development :: Build Tools',
-    'License :: OSI Approved :: MIT License',   # Again, pick a license
+    'License :: OSI Approved :: MIT License',
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
   ],
