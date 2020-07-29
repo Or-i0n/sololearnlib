@@ -1,2 +1,7 @@
 # Ignore distribution directory
+build/
 dist/
+*egg-info/
+
+# Files:
+MANIFEST
