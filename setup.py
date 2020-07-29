@@ -8,7 +8,7 @@ setuptools.setup(
     version="1.0.3",
     author="OR!ON",
     author_email='orionconner00@gmail.com', 
-    licence="MIT",
+    license="MIT",
     description="Retrieve public data from 'sololearn.com'.",
     long_description=readme_file,
     url='https://github.com/Or-i0n/pkg_sololearnlib',
