@@ -1,15 +1,15 @@
 from distutils.core import setup
 
 setup(
-    name="sololearn",
-    pakages=["sololearn"],
+    name="sololearnlib",
+    pakages=["sololearnlib"],
     version="1.0.0",
     licence="MIT",
     description="Retrieve public data from 'sololearn.com'.",
     author="OR!ON",
     author_email='orionconner00@gmail.com', 
-    url='https://github.com/Or-i0n/sololearn_package',
-    download_url='https://github.com/Or-i0n/sololearn_package/archive/v1.0.0-alpha.tar.gz',
+    url='https://github.com/Or-i0n/sololearnlib',
+    download_url='https://github.com/Or-i0n/sololearnlib/archive/v1.0.0-alpha.tar.gz',
     keywords=["sololearn", 'web scrape', 'api', "public data"],
     install_requires=[           
           'bs4',
