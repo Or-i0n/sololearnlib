@@ -2,7 +2,7 @@
 # -- Make a separate dict for counts.
 # -- Add specific type to lesson_link: Any = self.courses[course]["link"].
 
-from sololearn._worker import _Worker
+from sololearnlib._worker import _Worker
 
 from typing import List, Dict, Union, Any
 from bs4 import BeautifulSoup as Soup, ResultSet

@@ -1,4 +1,4 @@
-from sololearn._worker import _Worker
+from sololearnlib._worker import _Worker
 
 from typing import Any, List, Dict, Union
 from bs4 import BeautifulSoup as Soup, ResultSet

@@ -1,4 +1,4 @@
-from sololearn._worker import _Worker
+from sololearnlib._worker import _Worker
 
 from bs4 import BeautifulSoup as Soup, ResultSet
 from bs4.element import NavigableString
