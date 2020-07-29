@@ -40,7 +40,6 @@ class _Worker:
         hot_today: List[Dict[str, str]] = []
 
         sidebar: NavigableString = soup.find("div", {"class": "sidebar"})
-        # print(sidebar)
         list_wrapper: NavigableString = sidebar.find("div", {"class": "list"})
         list_items: ResultSet = list_wrapper.find_all("a")
 
