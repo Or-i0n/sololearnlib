@@ -1,16 +1,18 @@
-from distutils.core import setup
+import setuptools 
 
-setup(
+with open("README.md", "r") as infile:
+  readme_file = infile.read()
+
+setuptools.setup(
     name="sololearnlib",
-    pakages=["sololearnlib"],
-    version="1.0.2",
-    licence="MIT",
-    description="Retrieve public data from 'sololearn.com'.",
+    version="1.0.3",
     author="OR!ON",
     author_email='orionconner00@gmail.com', 
-    url='https://github.com/Or-i0n/sololearnlib',
-    download_url='https://github.com/Or-i0n/sololearnlib/archive/v1.0.2-alpha.tar.gz',
-    keywords=["sololearn", 'web scrape', 'api', "public data"],
+    licence="MIT",
+    description="Retrieve public data from 'sololearn.com'.",
+    long_description=readme_file,
+    url='https://github.com/Or-i0n/pkg_sololearnlib',
+    packages=setuptools.find_packages(),
     install_requires=[           
           'bs4',
       ],
@@ -25,4 +27,5 @@ setup(
     'Programming Language :: Python :: 3.8',
 
   ],
+  python_requires=">=3.5"
 )
