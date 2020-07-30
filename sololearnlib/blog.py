@@ -1,6 +1,6 @@
 from sololearnlib._worker import _Worker
 
-# Used for type referencing
+# Used for type referencing.
 from typing import List, Dict
 from bs4 import BeautifulSoup as Soup, ResultSet
 from bs4.element import NavigableString
@@ -31,7 +31,7 @@ class Blog(_Worker):
     
     def _fill_sidebars(self) -> None:
         """Fills data in self.recent_articles & self.recent_posts."""
-        
+
         for barname in ("recentArticles", "archives"):
             self._get_sidebar(barname)
 

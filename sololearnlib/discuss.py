@@ -1,5 +1,9 @@
+# TODO:
+# -- Make get_posts() return data.
+
 from sololearnlib._worker import _Worker
 
+# Used for type refrencing.
 from typing import Any, List, Dict, Union
 from bs4 import BeautifulSoup as Soup, ResultSet
 from bs4.element import NavigableString
@@ -26,21 +30,25 @@ class Discuss(_Worker):
         self.unanswered: DetailsList = []
 
     def _parse_details(self, code: NavigableString) -> ParseType:
-        """Parses a codeContainer and extracts all the info."""
+        """Parses a codeContainer and extracts all the info.
+        
+        Format of details ->
+        {votes: 1184, answers: 24077, post_link: <PostLink> title: <Title>, 
+         tags: [<Tags>, ...], author_name: <AuthorName>, author_link: <Link>, 
+         data_date: <DateTime>, avatar_link: <Link>}"""
 
-        # Format of details ->
-        # {votes: 1184, answers: 24077, post_link: <PostLink> title: <Title>, 
-        #  tags: [<Tags>, ...], author_name: <AuthorName>, author_link: <Link>, 
-        #  data_date: <DateTime>, avatar_link: <Link>}
         details: ParseType = {}
         post_stats: NavigableString = code.find("div", {"class": "postStats"})
         post_stats_children = list(post_stats.children)
         
         details["votes"] = post_stats_children[1].p.string
+        # There is a spelling mistake in the page source.
         # Note the spelling of <a class='postAnsewers'.
+        # 'Answers' is written as 'Anserwers'.
         details["answers"] = post_stats_children[3].p.string
 
-        post_details: NavigableString = code.find("div", {"class": "postDetails"})
+        post_details: NavigableString = code.find("div", 
+            {"class": "postDetails"})
         
         details["post_link"] = post_details.p.a["href"]
         details["title"] = post_details.p.a.string
@@ -72,7 +80,7 @@ class Discuss(_Worker):
             details: ParseType = self._parse_details(code)
             orders[ordering].append(details)
 
-    def get_posts(self, ordering: str="Trending", *, query: str=""):
+    def get_posts(self, ordering: str="Trending", *, query: str="") -> None:
         """Get codes according to ordering, language or query."""
 
         soup: Soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"

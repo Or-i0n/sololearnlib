@@ -1,5 +1,9 @@
+# TODO:
+# -- Make get_codes return the data.
+
 from sololearnlib._worker import _Worker
 
+# Used for type referencing.
 from bs4 import BeautifulSoup as Soup, ResultSet
 from bs4.element import NavigableString
 from typing import Dict, Iterable, List, Union
@@ -18,12 +22,13 @@ class CodePlayground(_Worker):
         self.most_popular: DetailsList = []
                
     def _parse_details(self, code: Soup) -> Dict[str, Union[str, int]]:
-        """Parses a codeContainer and extracts all the info."""
+        """Parses a codeContainer and extracts all the info.
+        
+        Format of details ->
+        {code_link: <Link>, code_name: <CodeName>, votes: <Votes>,
+         author_name: <AuthorName>, author_link: <Link>, 
+         data_date: <DateTime>}"""
 
-        # Format of details ->
-        # {code_link: <Link>, code_name: <CodeName>, votes: <Votes>,
-        #  author_name: <AuthorName>, author_link: <Link>, 
-        #  data_date: <DateTime>}
         details: Dict[str, Union[str, int]] = {}
 
         name_link: NavigableString = code.find("a", {"class": "nameLink"})

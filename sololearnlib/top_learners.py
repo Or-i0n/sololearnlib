@@ -15,14 +15,14 @@ class TopLearners(_Worker):
         super().__init__()
         self.subdomain = "/Leaderboard"
         self.url: str = self.domain + self.subdomain
-        # Stores html of the
-        # self.leaderboard_link page.
+
+        # Stores html of the self.leaderboard_link page.
         self.page: Soup = self._get_soup(self.subdomain)
         self.courses: Dict[str, Dict[str, str]] = {}
         self.leaderboard_title: str = ""
         self.leaderboard: Dict[str, Dict[str, Union[str, int]]] = {}
-        # By default fetch the global
-        # leaderboard.
+        
+        # By default fetch the global leaderboard.
         self._fetch_global()
 
     def _get_courses(self) -> None:
@@ -63,22 +63,19 @@ class TopLearners(_Worker):
             self.leaderboard[rank] = {"name": name, "points": points_int}
 
     def _fetch(self) -> None:
-        """Fetches page, leaderboard
-        title and top learners."""
+        """Fetches page, leaderboard title and top learners."""
 
         self._get_leaderboard_title()
         self._get_top_learners()
 
     def _fetch_global(self) -> None:
-        """Fetch global leaderboard
-        page and get a data about
-        available courses and their
-        leaderboard links."""
+        """Fetch global leaderboard page and get a data about
+        available courses and their leaderboard links."""
 
         self._fetch()
         self._get_courses()
 
-    def get_leaderboard(self, course: str):
+    def get_leaderboard(self, course: str) -> None:
         """Get the leaderboard of
         a specific language.
         Use .courses attribute to get info

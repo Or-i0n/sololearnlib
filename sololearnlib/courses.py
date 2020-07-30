@@ -1,9 +1,11 @@
 # TODO:
 # -- Make a separate dict for counts.
 # -- Add specific type to lesson_link: Any = self.courses[course]["link"].
+# -- Make get_lessons return the data.
 
 from sololearnlib._worker import _Worker
 
+# Used for type refrencing.
 from typing import List, Dict, Union, Any
 from bs4 import BeautifulSoup as Soup, ResultSet
 from bs4.element import NavigableString
@@ -81,7 +83,7 @@ class Courses(_Worker):
             course_data: ParseType = self._parse(item)
             self._update(course_name, course_data)
 
-    def _parse_lesson(self, lesson_link: str):
+    def _parse_lesson(self, lesson_link: str) -> dict:
         """Get lesson data out of the link page and returns it as dict."""
 
         lesson_page: Soup = self._get_soup(lesson_link)
@@ -106,5 +108,4 @@ class Courses(_Worker):
 
         lesson_link: Any = self.courses[course]["link"]
         lesson_data = self._parse_lesson(lesson_link)
-        # self.courses[course]["lessons"] = lesson_data
         self.lessons = lesson_data
