@@ -1,5 +1,6 @@
 from sololearnlib._worker import _Worker
 
+# Used for type referencing
 from typing import List, Dict
 from bs4 import BeautifulSoup as Soup, ResultSet
 from bs4.element import NavigableString
@@ -29,17 +30,20 @@ class Blog(_Worker):
                 self.recent_news.append({title: link})
     
     def _fill_sidebars(self) -> None:
+        """Fills data in self.recent_articles & self.recent_posts."""
+        
         for barname in ("recentArticles", "archives"):
             self._get_sidebar(barname)
 
     def get_articles(self, *, page: str ="1") -> List[Dict[str, str]]:
-        """Returns the info about blog articles."""
+        """Returns the article info about blog articles.
 
-        # Format of article_info ->
-        # [{"date": "24 July 2020", "title": "<Title>, 
-        #   "image_link": <ImageLink>, "content": <Content>, 
-        #   "article_link": <ArticleLink>},
-        #  ...]
+        Format of article info ->
+        [{"date": <Date>, "title": "<Title>, 
+          "image_link": <ImageLink>, "content": <Content>, 
+          "article_link": <ArticleLink>},
+         ...]"""
+
         articles_info: List[Dict[str, str]] = []
         articles: ResultSet
 
