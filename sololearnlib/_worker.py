@@ -12,7 +12,7 @@ class _Worker:
         self.raw_page: Optional[HTTPResponse] = None
 
     def _fetch_page(self, subdomain: str) -> None:
-        """Returns the HTTPResponse object to self.raw_page"""
+        """Assigns the HTTPResponse object to self.raw_page"""
 
         raw: HTTPResponse = request.urlopen(self.domain + subdomain)
         self.raw_page = raw
@@ -25,10 +25,11 @@ class _Worker:
         return soup
 
     def _get_hot_today(self, soup: Soup) -> List[Dict[str, str]]:
-        """Returns the 'Hot Today' names and links."""
+        """Returns the 'Hot Today' names and links.
+        
+        Format of self.hot_today ->
+        # [{code_name: <CodeLink>}, ...]"""
 
-        # Format of self.hot_today ->
-        # [{code_name: <CodeLink>}, ...]
         hot_today: List[Dict[str, str]] = []
 
         sidebar: NavigableString = soup.find("div", {"class": "sidebar"})
