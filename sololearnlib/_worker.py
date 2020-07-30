@@ -6,14 +6,6 @@ from typing import Optional, Dict, List
 from http.client import HTTPResponse
 
 
-__author__ = "OR!ON"
-__copyright__ = "Copyright 2020"
-__license__ = "GPL"
-__version__ = "1.4.0"
-__maintainer__ = "OR!ON"
-__status__ = "Prototype"
-
-
 class _Worker:
     def __init__(self) ->  None:
         self.domain = "https://www.sololearn.com"
