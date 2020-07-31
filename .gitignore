@@ -2,6 +2,8 @@
 build/
 dist/
 *egg-info/
+tests/
+sololearn/__pycache__/
 
 # Files:
 MANIFEST
