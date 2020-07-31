@@ -1,7 +1,7 @@
 # TODO:
 # -- Make get_posts() return data.
 
-from sololearnlib._worker import _Worker
+from _worker import _Worker
 
 # Used for type refrencing.
 from typing import Any, List, Dict, Union

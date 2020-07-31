@@ -1,4 +1,4 @@
-from sololearnlib._worker import _Worker
+from _worker import _Worker
 
 # Used for type referencing.
 from typing import List, Dict

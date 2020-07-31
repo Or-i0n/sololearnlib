@@ -3,7 +3,7 @@
 # -- Add specific type to lesson_link: Any = self.courses[course]["link"].
 # -- Make get_lessons return the data.
 
-from sololearnlib._worker import _Worker
+from _worker import _Worker
 
 # Used for type refrencing.
 from typing import List, Dict, Union, Any

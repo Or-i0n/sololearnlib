@@ -1,7 +1,7 @@
 # TODO:
 # -- Make get_leaderboard() return data.
 
-from sololearnlib._worker import _Worker
+from _worker import _Worker
 
 from bs4 import BeautifulSoup as Soup, ResultSet
 from bs4.element import NavigableString
