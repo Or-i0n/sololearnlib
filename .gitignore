@@ -3,7 +3,7 @@ build/
 dist/
 *egg-info/
 tests/
-sololearn/__pycache__/
+sololearnlib/__pycache__/
 
 # Files:
 MANIFEST
