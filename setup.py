@@ -10,6 +10,7 @@ setuptools.setup(
     author_email="orionconner00@gmail.com", 
     license="MIT",
     description="Retrieve public data from 'sololearn.com'.",
+    long_description_content_type="text/markdown",
     long_description=readme_file,
     url="https://github.com/Or-i0n/sololearnlib",
     packages=setuptools.find_packages(),
