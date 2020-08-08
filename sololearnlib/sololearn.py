@@ -1,6 +1,10 @@
+# TODO:
+# -- Make CodePlayground return data faster.
+
 from urllib import request
 from bs4 import BeautifulSoup as Soup, ResultSet
 
+# Used for type referencing.
 from bs4.element import NavigableString
 from typing import Optional, Dict, List, Union, Iterable, Any
 from http.client import HTTPResponse
@@ -200,8 +204,8 @@ class CodePlayground(_Worker):
             orders[ordering].append(details)
     
     def get_codes(self, ordering: str ="Trending", *, 
-        language: str ="", query: str ="") -> None:
-        """Get codes according to ordering, language or query."""
+        language: str ="", query: str ="") -> Union[DetailsList, None]:
+        """Return codes according to ordering, language or query."""
 
         soup: Soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
                               f"language={language}&query={query}")
@@ -211,10 +215,14 @@ class CodePlayground(_Worker):
         
         if ordering == "Trending":
             self._fill_codes(public_codes, ordering)
+            return self.trending
         elif ordering == "MostRecent":
             self._fill_codes(public_codes, ordering)
+            return self.most_recent
         elif ordering ==  "MostPopular":
             self._fill_codes(public_codes, ordering)
+            return self.most_popular
+        return None
 
 class Courses(_Worker):
     def __init__(self) -> None:
