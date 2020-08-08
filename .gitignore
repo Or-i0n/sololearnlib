@@ -2,9 +2,8 @@
 build/
 dist/
 *egg-info/
-tests/
-sololearnlib/__pycache__/
+__pycache__/
 
 # Files:
 MANIFEST
-test_package.py
+test.py
