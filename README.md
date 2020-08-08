@@ -37,7 +37,7 @@ $ pip install sololearnlib
 
 Want to contribute? Great!
 Head toward the github repository:
-- [pkg_sololearnlib](https://github.com/Or-i0n/sololearnlib)
+- [sololearnlib](https://github.com/Or-i0n/sololearnlib)
 
 ### Todos
 
