@@ -5,7 +5,7 @@ with open("README.md", "r") as infile:
 
 setuptools.setup(
     name="sololearnlib",
-    version="1.0.5",
+    version="2.0.0",
     author="OR!ON",
     author_email="orionconner00@gmail.com", 
     license="MIT",
