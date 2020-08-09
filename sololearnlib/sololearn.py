@@ -480,19 +480,14 @@ class TopLearners(_Worker):
 
     def get_leaderboard(self, 
         course: str) -> Dict[str, Dict[str, Union[str, int]]]:
-        """Get the leaderboard of
-        a specific language.
-        Use .courses attribute to get info
-        about available courses and their
+        """Get the leaderboard of a specific language.
+        Use .courses attribute to get info about available courses and their
         leaderboard links.
 
         Some of the courses are:
-        ['python', 'cplusplus', 'java',
-        'javascript', 'csharp', 'c', 'sql',
-        'machine-learning', 'data-science',
-        'html', 'php', 'css', 'ruby',
-        'jquery', 'fullstack', 'react',
-        'swift']"""
+        ['python', 'cplusplus', 'java', 'javascript', 'csharp', 'c', 'sql',
+        'machine-learning', 'data-science', 'html', 'php', 'css', 'ruby',
+        'jquery', 'fullstack', 'react', 'swift']"""
 
         course_info = self.courses[course]
         course_link = course_info["link"]
