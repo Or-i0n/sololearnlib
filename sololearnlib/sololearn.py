@@ -78,6 +78,9 @@ class Blog(_Worker):
         
         self.recent_posts: List[Dict[str, str]] = []
         self.recent_news: List[Dict[str, str]] = []
+        
+        # Assign data to self.recent_posts and self.recent_news
+        self._fill_sidebars()
 
     def _get_sidebar(self, sidebar_name: str) -> None:
         """Get the two sidebars 'Recent Posts' & 'Recent News'."""
