@@ -1,6 +1,8 @@
 # TODO:
 # -- Make CodePlayground return data faster.
 # -- Add Usage to README file.
+# -- Fix: blog.get_articles("2")
+#         TypeError: get_articles() takes 1 positional argument but 2 were given
 
 from urllib import request
 from bs4 import BeautifulSoup as Soup, ResultSet
@@ -78,7 +80,7 @@ class Blog(_Worker):
         
         self.recent_posts: List[Dict[str, str]] = []
         self.recent_news: List[Dict[str, str]] = []
-        
+
         # Assign data to self.recent_posts and self.recent_news
         self._fill_sidebars()
 
@@ -103,7 +105,7 @@ class Blog(_Worker):
             self._get_sidebar(barname)
 
     def get_articles(self, *, page: str ="1") -> List[Dict[str, str]]:
-        """Returns the article info about blog articles.
+        """Returns the article info about blog articles from the specified page.
 
         Format of article info ->
         [{"date": <Date>, "title": "<Title>, 
