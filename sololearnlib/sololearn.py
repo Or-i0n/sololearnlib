@@ -493,8 +493,9 @@ class TopLearners(_Worker):
         course_link = course_info["link"]
         course_title = course_info["title"]
 
-        self.leaderboard_link = course_link
+        self.subdomain = course_link
         self.leaderboard_title = course_title
+        self.page = self._get_soup(self.subdomain)
 
         self._fetch()
 
