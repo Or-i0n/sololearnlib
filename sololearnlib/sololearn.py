@@ -25,8 +25,9 @@ CourseObj = Dict[str, ParseType]
 
 # Utility Class:
 # -----------------------------------------------------------------------------
-
 class _Worker:
+    """This class contains various utility methods used by main classes."""
+
     def __init__(self) ->  None:
         self.domain = "https://www.sololearn.com"
         self.raw_page: Optional[HTTPResponse] = None
@@ -47,8 +48,9 @@ class _Worker:
     def _get_hot_today(self, soup: Soup) -> List[Dict[str, str]]:
         """Returns the 'Hot Today' names and links.
         
-        Format of self.hot_today ->
-        # [{code_name: <CodeLink>}, ...]"""
+        Format of self.hot_today:
+        -------------------------
+        [{code_name: <CodeLink>}, ...]"""
 
         hot_today: List[Dict[str, str]] = []
 
@@ -67,6 +69,9 @@ class _Worker:
 # Main Classes:
 # -----------------------------------------------------------------------------
 class Blog(_Worker):
+    """This class contains various methods to retrieve data from sololearn
+    blogs."""
+
     def __init__(self) -> None:
         super().__init__()
         self.subdomain = "/Blog"
@@ -420,7 +425,7 @@ class TopLearners(_Worker):
         self.url: str = self.domain + self.subdomain
 
         # Stores html of the self.leaderboard_link page.
-        self.page: Soup = self._get_soup(self.subdomain)
+        self.soup: Soup = self._get_soup(self.subdomain)
         self.courses: Dict[str, Dict[str, str]] = {}
         self.leaderboard_title: str = ""
         self.leaderboard: Dict[str, Dict[str, Union[str, int]]] = {}
@@ -431,7 +436,7 @@ class TopLearners(_Worker):
     def _get_courses(self) -> None:
         """Get a dict of available courses with their link and title."""
 
-        leaderboard_courses: NavigableString = self.page.find("div",
+        leaderboard_courses: NavigableString = self.soup.find("div",
                                              {"class": "leaderboardCourses"})
         courses: ResultSet = leaderboard_courses.find_all("a")
         for course in courses:
@@ -443,7 +448,7 @@ class TopLearners(_Worker):
     def _get_leaderboard_title(self) -> None:
         """Get the leaderboard title."""
 
-        details: NavigableString = self.page.find("div", {"class": "details"})
+        details: NavigableString = self.soup.find("div", {"class": "details"})
         self.leaderboard_title: str = details.get_text(separator=" ", 
             strip=True)
 
@@ -451,7 +456,7 @@ class TopLearners(_Worker):
         """Get user info from leaderboard. It includes their
         rank, name and points."""
 
-        leaderboard_list: NavigableString = self.page.find("div", 
+        leaderboard_list: NavigableString = self.soup.find("div", 
             {"class": "leaderboardList"})
         items: ResultSet = leaderboard_list.find_all("div", {"class": "item"})
 
@@ -495,7 +500,7 @@ class TopLearners(_Worker):
 
         self.subdomain = course_link
         self.leaderboard_title = course_title
-        self.page = self._get_soup(self.subdomain)
+        self.soup = self._get_soup(self.subdomain)
 
         self._fetch()
 
