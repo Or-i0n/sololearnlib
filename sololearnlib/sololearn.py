@@ -1,7 +1,6 @@
 # TODO:
 # -- Make CodePlayground return data faster.
 # -- Add Usage to README file.
-# -- Fix bug in TopLearners.get_leaderboard()
 
 from urllib import request
 from bs4 import BeautifulSoup as Soup, ResultSet
