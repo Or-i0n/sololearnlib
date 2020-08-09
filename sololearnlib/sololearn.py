@@ -3,6 +3,7 @@
 # -- Add Usage to README file.
 # -- Fix: blog.get_articles("2")
 #         TypeError: get_articles() takes 1 positional argument but 2 were given
+# -- Add a more specific type to Courses._parse_lesson
 
 from urllib import request
 from bs4 import BeautifulSoup as Soup, ResultSet
