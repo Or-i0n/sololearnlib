@@ -1,5 +1,7 @@
 # TODO:
 # -- Make CodePlayground return data faster.
+# -- Add Usage to README file.
+# -- Fix bug in TopLearners.get_leaderboard()
 
 from urllib import request
 from bs4 import BeautifulSoup as Soup, ResultSet
@@ -313,12 +315,13 @@ class Courses(_Worker):
         
         return data
 
-    def get_lessons(self, course: str):
-        """Puts lessons data inside sel.courses and self.lessons."""
+    def get_lessons(self, course: str) -> Dict[str, List[str]]:
+        """Returns lesson data."""
 
         lesson_link: Any = self.courses[course]["link"]
         lesson_data = self._parse_lesson(lesson_link)
         self.lessons = lesson_data
+        return self.lessons
 
 class Discuss(_Worker):
     def __init__(self) -> None:
@@ -388,8 +391,9 @@ class Discuss(_Worker):
             details: ParseType2 = self._parse_details(code)
             orders[ordering].append(details)
 
-    def get_posts(self, ordering: str="Trending", *, query: str="") -> None:
-        """Get codes according to ordering, language or query."""
+    def get_posts(self, ordering: str="Trending", *, 
+        query: str="") -> Union[DetailsList2, None]:
+        """Return codes according to ordering, language or query."""
 
         soup: Soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
                             f"query={query}")
@@ -398,10 +402,14 @@ class Discuss(_Worker):
         
         if ordering == "Trending":
             self._fill_posts(questions, ordering)
+            return self.trending
         elif ordering == "MostRecent":
             self._fill_posts(questions, ordering)
+            return self.most_recent
         elif ordering ==  "Unanswered":
             self._fill_posts(questions, ordering)
+            return self.unanswered
+        return None
 
 class TopLearners(_Worker):
     def __init__(self) -> None:
@@ -470,7 +478,8 @@ class TopLearners(_Worker):
         self._fetch()
         self._get_courses()
 
-    def get_leaderboard(self, course: str) -> None:
+    def get_leaderboard(self, 
+        course: str) -> Dict[str, Dict[str, Union[str, int]]]:
         """Get the leaderboard of
         a specific language.
         Use .courses attribute to get info
@@ -493,3 +502,5 @@ class TopLearners(_Worker):
         self.leaderboard_title = course_title
 
         self._fetch()
+
+        return self.leaderboard
