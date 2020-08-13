@@ -236,7 +236,7 @@ class CodePlayground(_Worker):
         return all_data
 
     def get_codes(self, ordering: str ="Trending", *, 
-        language: str ="", query: str ="") -> Union[DetailsList, None]:
+        language: str ="", query: str ="") -> Union[DetailsList]:
         """Return codes according to ordering, language or query."""
         
         if ordering != "Trending":
@@ -262,7 +262,7 @@ class CodePlayground(_Worker):
             self.most_popular: DetailsList
             self.most_popular = self._get_all_codes(public_codes)
             return self.most_popular
-        return None
+        return []
 
 class Courses(_Worker):
     def __init__(self) -> None:
