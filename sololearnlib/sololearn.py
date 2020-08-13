@@ -219,9 +219,12 @@ class CodePlayground(_Worker):
     def get_codes(self, ordering: str ="Trending", *, 
         language: str ="", query: str ="") -> Union[DetailsList, None]:
         """Return codes according to ordering, language or query."""
-
-        soup: Soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
-                              f"language={language}&query={query}")
+        
+        if ordering != "Trending":
+            soup: Soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
+                                        f"language={language}&query={query}")
+        else:
+            soup = self.soup
 
         public_codes: ResultSet = soup.find_all("div", 
             {"class", "codeContainer"})
