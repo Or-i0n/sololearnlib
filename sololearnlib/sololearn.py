@@ -78,33 +78,41 @@ class Blog(_Worker):
     def __init__(self) -> None:
         super().__init__()
         self.subdomain = "/Blog"
-        self.soup: Soup = self._get_soup(self.subdomain)
-        
-        self.recent_posts: List[Dict[str, str]] = []
-        self.recent_news: List[Dict[str, str]] = []
+        self.soup: Soup = None
 
         # Assign data to self.recent_posts and self.recent_news
-        self._fill_sidebars()
+        # self._fill_sidebars()
 
-    def _get_sidebar(self, sidebar_name: str) -> None:
+    def _get_sidebar(self, sidebar_name: str) -> List[Dict[str, str]]:
         """Get the two sidebars 'Recent Posts' & 'Recent News'."""
+
+        if not self.soup:
+            self.soup = self._get_soup(self.subdomain)
 
         recent: NavigableString = self.soup.find("div", {"class": sidebar_name})
         articles: ResultSet = recent.find_all("a")
+        articles_info: List[Dict[str, str]] = []
 
         for article in articles:
             link: str = article["href"]
             title: str = article.get_text()
-            if sidebar_name == "recentArticles":
-                self.recent_posts.append({title: link})
-            elif sidebar_name == "archives":
-                self.recent_news.append({title: link})
-    
-    def _fill_sidebars(self) -> None:
-        """Fills data in self.recent_articles & self.recent_posts."""
+            articles_info.append({title: link})
 
-        for barname in ("recentArticles", "archives"):
-            self._get_sidebar(barname)
+        return articles_info
+    
+    def get_recent_posts(self) -> List[Dict[str, str]]:
+        """Fills data in self.recent_posts and return it."""
+
+        self.recent_posts: List[Dict[str, str]] = []
+        self.recent_posts = self._get_sidebar("recentArticles")
+        return self.recent_posts
+    
+    def get_recent_news(self) -> List[Dict[str, str]]:
+        """Fills data in self.recent_news and return it."""
+
+        self.recent_news: List[Dict[str, str]] = []
+        self.recent_news = self._get_sidebar("archives")
+        return self.recent_news
 
     def get_articles(self, *, page: str ="1") -> List[Dict[str, str]]:
         """Returns the article info about blog articles from the specified page.
@@ -122,6 +130,8 @@ class Blog(_Worker):
             self.soup = self._get_soup(f"{self.subdomain}?page={page}")
             articles = self.soup.find_all("div", {"class": "article"})
         else:
+            if not self.soup:
+                self.soup = self._get_soup(self.subdomain)
             articles = self.soup.find_all("div", {"class": "article"})
 
         for article in articles:
