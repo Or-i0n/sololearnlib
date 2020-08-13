@@ -5,6 +5,8 @@
 #         TypeError: get_articles() takes 1 positional argument but 2 were given
 # -- Add a more specific type to Courses._parse_lesson().
 # -- Convert 'votes' and 'answers' count to int in Discuss.courses.
+# -- Run other language code from this module on sololearn's server and 
+#    return its output.
 
 from urllib import request
 from bs4 import BeautifulSoup as Soup, ResultSet
@@ -103,14 +105,14 @@ class Blog(_Worker):
     def get_recent_posts(self) -> List[Dict[str, str]]:
         """Fills data in self.recent_posts and return it."""
 
-        self.recent_posts: List[Dict[str, str]] = []
+        self.recent_posts: List[Dict[str, str]]
         self.recent_posts = self._get_sidebar("recentArticles")
         return self.recent_posts
     
     def get_recent_news(self) -> List[Dict[str, str]]:
         """Fills data in self.recent_news and return it."""
 
-        self.recent_news: List[Dict[str, str]] = []
+        self.recent_news: List[Dict[str, str]]
         self.recent_news = self._get_sidebar("archives")
         return self.recent_news
 
@@ -184,12 +186,18 @@ class CodePlayground(_Worker):
     def __init__(self) -> None:
         super().__init__()
         self.subdomain = "/Codes"
-        self.soup: Soup = self._get_soup(self.subdomain)
+        self.soup: Soup = None
+
+    def get_hot_today(self) -> List[Dict[str, str]]:
+        """Creates a new attribute self.hot_today and returns it."""
+
+        if not self.soup:
+            self.soup = self._get_soup(self.subdomain)
+
         self.hot_today: List[Dict[str, str]] = self._get_hot_today(self.soup)
-        self.trending: DetailsList = []
-        self.most_recent: DetailsList = []
-        self.most_popular: DetailsList = []
-               
+        return self.hot_today
+
+
     def _parse_details(self, code: Soup) -> Dict[str, Union[str, int]]:
         """Parses a codeContainer and extracts all the info.
         
@@ -217,15 +225,16 @@ class CodePlayground(_Worker):
         
         return details
 
-    def _fill_codes(self, public_codes: Iterable[Soup], ordering: str) -> None:
+    def _get_all_codes(self, 
+        public_codes: Iterable[Soup]) -> List[Dict[str, Union[str, int]]]:
         """Fills code data inside the specified attribute."""
 
-        orders = {"Trending": self.trending, "MostRecent": self.most_recent, 
-                  "MostPopular": self.most_popular}
+        all_data: List[Dict[str, Union[str, int]]] = []
         for code in public_codes:
             details: Dict[str, Union[str, int]] = self._parse_details(code)
-            orders[ordering].append(details)
-    
+            all_data.append(details)
+        return all_data
+
     def get_codes(self, ordering: str ="Trending", *, 
         language: str ="", query: str ="") -> Union[DetailsList, None]:
         """Return codes according to ordering, language or query."""
@@ -234,19 +243,24 @@ class CodePlayground(_Worker):
             soup: Soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
                                         f"language={language}&query={query}")
         else:
+            if not self.soup:
+                self.soup = self._get_soup(self.subdomain)
             soup = self.soup
 
         public_codes: ResultSet = soup.find_all("div", 
             {"class", "codeContainer"})
         
         if ordering == "Trending":
-            self._fill_codes(public_codes, ordering)
+            self.trending: DetailsList
+            self.trending = self._get_all_codes(public_codes)
             return self.trending
         elif ordering == "MostRecent":
-            self._fill_codes(public_codes, ordering)
+            self.most_recent: DetailsList
+            self.most_recent = self._get_all_codes(public_codes)
             return self.most_recent
         elif ordering ==  "MostPopular":
-            self._fill_codes(public_codes, ordering)
+            self.most_popular: DetailsList
+            self.most_popular = self._get_all_codes(public_codes)
             return self.most_popular
         return None
 
