@@ -236,7 +236,7 @@ class CodePlayground(_Worker):
         return all_data
 
     def get_codes(self, ordering: str ="Trending", *, 
-        language: str ="", query: str ="") -> Union[DetailsList]:
+        language: str ="", query: str ="") -> DetailsList:
         """Return codes according to ordering, language or query."""
         
         if ordering != "Trending":
