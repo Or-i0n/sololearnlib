@@ -5,8 +5,7 @@
 #         TypeError: get_articles() takes 1 positional argument but 2 were given
 # -- Add a more specific type to Courses._parse_lesson().
 # -- Convert 'votes' and 'answers' count to int in Discuss.courses.
-# -- Run other language code from this module on sololearn's server and 
-#    return its output.
+
 
 from urllib import request
 from bs4 import BeautifulSoup as Soup, ResultSet
@@ -182,6 +181,7 @@ class Blog(_Worker):
 
         return article_text
 
+
 class CodePlayground(_Worker):
     def __init__(self) -> None:
         super().__init__()
@@ -264,23 +264,12 @@ class CodePlayground(_Worker):
             return self.most_popular
         return []
 
+
 class Courses(_Worker):
     def __init__(self) -> None:
         super().__init__()
-
         self.subdomain = "/Courses"
         self.soup: Soup = None
-
-        
-        
-        # Format of self.lessons ->
-        # {"Basic Concepts": ["What is Python?", ...],
-        #  "Control Structures": ["Boolean & Comparisons", ...],
-        #  ...}
-        
-        self.lessons: Dict[str, List[str]] = {}
-
-        self._get_courses()
 
     def _parse(self, course: NavigableString) -> ParseType:
         """Parses course to get its link & icon url, title, description
@@ -307,19 +296,23 @@ class Courses(_Worker):
         return info
 
     def get_courses(self) -> CourseObj:
-        """Get the course related html from page & put it inside a dict."""
+        """Get the course related html from page & return it as a dict.
 
-        # Format of self.courses ->
-        # {"python":{"link":"/Course/Python/",
-        #            "icon":"/Icons/Courses/1073.png",
-        #            "title":"Python 3 Tutorial",
-        #            "description":"\nLearn Python, one of ..."
-        #            "counts":{"learners":6720354,
-        #                      "lessons":92,
-        #                      "quizzes":275},
-        #             },
-        # "cplusplus": ...}
-        self.courses: CourseObj= {}
+        Format of self.courses (CourseObj):
+        -----------------------------------
+        {"python":{"link":"/Course/Python/",
+                   "icon":"/Icons/Courses/1073.png",
+                   "title":"Python 3 Tutorial",
+                   "description":"\nLearn Python, one of ..."
+                   "counts":{"learners":6720354,
+                             "lessons":92,
+                             "quizzes":275},
+                    },
+        "cplusplus": ...}"""
+
+        if not self.soup:
+                self.soup = self._get_soup(self.subdomain)
+                self.courses: CourseObj= {}
 
         courses_content: NavigableString = self.soup.find("div", 
             {"class": "coursesContent"})
@@ -330,6 +323,7 @@ class Courses(_Worker):
             course_name: str = item.a["href"].split("/")[-2].lower()
             course_data: ParseType = self._parse(item)
             self.courses[course_name] =  course_data
+
         return self.courses
 
     def _parse_lesson(self, lesson_link: str) -> dict:
@@ -353,12 +347,29 @@ class Courses(_Worker):
         return data
 
     def get_lessons(self, course: str) -> Dict[str, List[str]]:
-        """Returns lesson data."""
+        """Returns lesson data.
+
+        Format of self.lessons (Returned object):
+        ----------------------------------------
+        {"Basic Concepts": ["What is Python?", ...],
+         "Control Structures": ["Boolean & Comparisons", ...],
+         ...}"""
+
+        self.lessons: Dict[str, List[str]] = {}
+
+        # Check if user already called self.get_courses which create the 
+        # self.courses attribute.
+        # If not call self.get_courses() manually.
+        try:
+            self.courses
+        except AttributeError:
+            self.get_courses()
 
         lesson_link: Any = self.courses[course]["link"]
         lesson_data = self._parse_lesson(lesson_link)
         self.lessons = lesson_data
         return self.lessons
+
 
 class Discuss(_Worker):
     def __init__(self) -> None:
@@ -447,6 +458,7 @@ class Discuss(_Worker):
             self._fill_posts(questions, ordering)
             return self.unanswered
         return None
+
 
 class TopLearners(_Worker):
     def __init__(self) -> None:
