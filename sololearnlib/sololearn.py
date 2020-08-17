@@ -357,7 +357,7 @@ class Courses(_Worker):
 
         self.lessons: Dict[str, List[str]] = {}
 
-        # Check if user already called self.get_courses which create the 
+        # Check if user already called self.get_courses() which creates the 
         # self.courses attribute.
         # If not call self.get_courses() manually.
         try:
@@ -375,18 +375,17 @@ class Discuss(_Worker):
     def __init__(self) -> None:
         super().__init__()
         self.subdomain = "/Discuss"
-        self.soup: Soup = self._get_soup(self.subdomain)
+        self.soup: Soup = None
 
+    def get_hot_today(self) -> List[Dict[str, str]]:
+        """Returns the hot discussions."""
         
-        self.hot_today: List[Dict[str, str]] = self._get_hot_today(self.soup)
+        if not self.soup:
+            self.soup = self._get_soup(self.subdomain)
 
-        # Format of self.trending ->
-        # [{votes: 1184, answers: 24077, title: <Title>, tags: [<Tags>, ...],
-        #   author: <AuthorName>, profile_link: <Link>, data_date: <DateTime>,
-        #   avatar: <Link>}, ...]
-        self.trending: DetailsList2 = []
-        self.most_recent: DetailsList2 = []
-        self.unanswered: DetailsList2 = []
+        self.hot_today: List[Dict[str, str]]
+        self.hot_today = self._get_hot_today(self.soup)
+        return self.hot_today
 
     def _parse_details(self, code: NavigableString) -> ParseType2:
         """Parses a codeContainer and extracts all the info.
@@ -429,35 +428,48 @@ class Discuss(_Worker):
         
         return details
 
-    def _fill_posts(self, public_codes: ResultSet, ordering: str) -> None:
+    def _get_all_posts(self, public_codes: ResultSet) -> List[ParseType2]:
         """Fills code data inside the specified attribute."""
 
-        orders: Dict[str, Any] = {"Trending": self.trending, 
-            "MostRecent": self.most_recent, 
-            "Unasnswered": self.unanswered}
+        all_data: List[ParseType2] = []
         for code in public_codes:
             details: ParseType2 = self._parse_details(code)
-            orders[ordering].append(details)
+            all_data.append(details)
+        return all_data
 
     def get_posts(self, ordering: str="Trending", *, 
-        query: str="") -> Union[DetailsList2, None]:
-        """Return codes according to ordering, language or query."""
+        query: str="") -> List[ParseType2]:
+        """Return codes according to ordering, language or query.
 
-        soup: Soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
-                            f"query={query}")
+        Returned data format:
+        ---------------------
+        [{votes: 1184, answers: 24077, title: <Title>, tags: [<Tags>, ...],
+          author: <AuthorName>, profile_link: <Link>, data_date: <DateTime>,
+          avatar: <Link>}, ...]"""
 
+        if ordering != "Trending":
+            soup: Soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
+                                        f"query={query}")
+        else:
+            if not self.soup:
+                self.soup = self._get_soup(self.subdomain)
+            soup = self.soup
+             
         questions: ResultSet = soup.find_all("div", {"class", "question"})
         
         if ordering == "Trending":
-            self._fill_posts(questions, ordering)
+            self.trending: List[ParseType2]
+            self.trending = self._get_all_posts(questions)
             return self.trending
         elif ordering == "MostRecent":
-            self._fill_posts(questions, ordering)
+            self.most_recent: List[ParseType2]
+            self.most_recent = self._get_all_posts(questions)
             return self.most_recent
         elif ordering ==  "Unanswered":
-            self._fill_posts(questions, ordering)
+            self.unanswered: List[ParseType2]
+            self.unanswered = self._get_all_posts(questions)
             return self.unanswered
-        return None
+        return []
 
 
 class TopLearners(_Worker):
