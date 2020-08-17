@@ -236,7 +236,7 @@ class CodePlayground(_Worker):
         return all_data
 
     def get_codes(self, ordering: str ="Trending", *, 
-        language: str ="", query: str ="") -> DetailsList:
+        language: str ="", query: str ="") -> Union[DetailsList, list]:
         """Return codes according to ordering, language or query."""
         
         if ordering != "Trending":
@@ -269,20 +269,9 @@ class Courses(_Worker):
         super().__init__()
 
         self.subdomain = "/Courses"
-        # Assign a BeautifulSoup object
-        self.soup: Soup = self._get_soup(self.subdomain)
+        self.soup: Soup = None
 
-        # Format of self.courses ->
-        # {"python":{"link":"/Course/Python/",
-        #            "icon":"/Icons/Courses/1073.png",
-        #            "title":"Python 3 Tutorial",
-        #            "description":"\nLearn Python, one of ..."
-        #            "counts":{"learners":6720354,
-        #                      "lessons":92,
-        #                      "quizzes":275},
-        #             },
-        # "cplusplus": ...}
-        self.courses: CourseObj= {}
+        
         
         # Format of self.lessons ->
         # {"Basic Concepts": ["What is Python?", ...],
@@ -317,13 +306,20 @@ class Courses(_Worker):
 
         return info
 
-    def _update(self, course_name: str,  newdata: ParseType) -> None:
-        """Inserts course and its data to self.courses."""
-
-        self.courses[course_name] = newdata
-
-    def _get_courses(self) -> None:
+    def get_courses(self) -> CourseObj:
         """Get the course related html from page & put it inside a dict."""
+
+        # Format of self.courses ->
+        # {"python":{"link":"/Course/Python/",
+        #            "icon":"/Icons/Courses/1073.png",
+        #            "title":"Python 3 Tutorial",
+        #            "description":"\nLearn Python, one of ..."
+        #            "counts":{"learners":6720354,
+        #                      "lessons":92,
+        #                      "quizzes":275},
+        #             },
+        # "cplusplus": ...}
+        self.courses: CourseObj= {}
 
         courses_content: NavigableString = self.soup.find("div", 
             {"class": "coursesContent"})
@@ -333,7 +329,8 @@ class Courses(_Worker):
         for item in course_items:
             course_name: str = item.a["href"].split("/")[-2].lower()
             course_data: ParseType = self._parse(item)
-            self._update(course_name, course_data)
+            self.courses[course_name] =  course_data
+        return self.courses
 
     def _parse_lesson(self, lesson_link: str) -> dict:
         """Get lesson data out of the link page and returns it as dict."""
