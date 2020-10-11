@@ -5,6 +5,7 @@
 #         TypeError: get_articles() takes 1 positional argument but 2 were given
 # -- Add a more specific type to Courses._parse_lesson().
 # -- Convert 'votes' and 'answers' count to int in Discuss.courses.
+# -- Blog() not working due to webpage redesign.
 
 
 from urllib import request
