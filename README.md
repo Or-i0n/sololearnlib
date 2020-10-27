@@ -1,11 +1,7 @@
 
 # sololearnlib
 
-  
-
 sololearnlib is a library for retrieving public data from [Sololearn](https://www.sololearn.com).
-
-  
 
 - Easy to use.
 
@@ -15,11 +11,7 @@ sololearnlib is a library for retrieving public data from [Sololearn](https://ww
 
 - Json-compatible data.
 
-  
-
 # Features
-
-  
 
 - Retrieve Blog articles.
 
@@ -35,25 +27,13 @@ sololearnlib is a library for retrieving public data from [Sololearn](https://ww
 
 - Find out what are the trending, most recent and unanswered discussions.
 
-  
-
 ### Tech
-
-  
 
 sololearnlib just uses [bs4](https://pypi.org/project/bs4/) (BeautifulSoup4).
 
-  
-
 ### Installation
 
-  
-
 sololearnlib requires [Python 3](https://www.python.org/) v3.5+ to run.
-
-  
-  
-  
 
 ```sh
 
