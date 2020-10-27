@@ -41,7 +41,7 @@ sololearnlib is a library for retrieving public data from [Sololearn](https://ww
 
   
 
-sololearn just uses [bs4](https://pypi.org/project/bs4/) (BeautifulSoup4).
+sololearnlib just uses [bs4](https://pypi.org/project/bs4/) (BeautifulSoup4).
 
   
 
@@ -77,12 +77,6 @@ blog = Blog()
 ```py
 print(blog.domain)
 # "https://www.sololearn.com"
-
-print(blog.recent_posts)
-# [{'\n\nHabit-Forming Lear... Learning\n': '/Blog/73/habit-formi...-learning/'}, ...]
-
-print(blog.recent_news)
-# [{'\n\nSoloLearn’s Learn ...lay India\n': '/Blog/29/sololearn-s...lay-india/'}, ...}]
 ```
 - Using methods/functions
 ```py
