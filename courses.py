@@ -2,6 +2,7 @@ from sololearnlib._worker import _Worker
 import re
 import json
 
+
 class Courses(_Worker):
     def __init__(self):
         super().__init__()
@@ -10,17 +11,18 @@ class Courses(_Worker):
         self.courses = {}
         self.lessons = {}
 
-    def _parse(self):
-        """Get data out of the course page and put it in self.courses."""
-        
+    def _parse(self, subdomain):
+        """Get data out of the course page in json format."""
+
+        self.soup = self._get_soup(subdomain)
+
         # The data about courses is stored inside a script tag.
         # Get data out of script tag using regex.
         scripts = self.soup.find_all("script")
         for script in scripts:
             if initial_data := re.search(r"window.initialData = (\{.*\})", str(script)):
                 data = initial_data.group(1)
-                self.courses = json.loads(data)
-                # print(self.courses)
+                return json.loads(data)
     
     def get_courses(self):
         """Get data about courses available on sololearn."""
@@ -44,9 +46,66 @@ class Courses(_Worker):
         #         "id":1073
         # }, ...
         
-        self.soup = self._get_soup(self.subdomain)
-        self._parse()
+        self.courses = self._parse(self.subdomain)
         return self.courses
+
+    def get_lessons(self, course_id=1073):
+        """Get lessons of any course, just enter the course_id.
+        Default course_id is 1073 for python course.
+        You can get other course_id from self.get_courses()."""
+
+        # {"getCourse":{
+        #     "success":true,
+        #     "errors":[
+                
+        #     ],
+        #     "data":{
+        #         "name":"Python Core",
+        #         "description":"Learn Python, one of today's...",
+        #         "metaDescription":"Python is one of the ...",
+        #         "iconUrl":"https://sololearnuploads...",
+        #         "learnersCount":0,
+        #         "language":"py",
+        #         "progress":0,
+        #         "modules":[
+        #             {
+        #             "name":"Basic Concepts",
+        #             "allowShortcut":false,
+        #             "iconUrl":"https://sololearnuploads...",
+        #             "codeCoaches":[
+        #                 {
+        #                     "title":"Exponentiation",
+        #                     "difficulty":"easy",
+        #                     "iconUrl":"https://api.sololearn...",
+        #                     "isPro":false,
+        #                     "rewardXp":10,
+        #                     "moduleId":1220,
+        #                     "type":"EOM",
+        #                     "id":115
+        #                 }
+        #             ],
+        #             "lessons":[
+        #                 {
+        #                     "courseId":0,
+        #                     "moduleId":0,
+        #                     "name":"Welcome to Python",
+        #                     "type":"lesson",
+        #                     "orderRank":1,
+        #                     "quizzesCount":2,
+        #                     "quizzes":[
+                                
+        #                     ],
+        #                     "id":2269
+        #                 },
+
+        self.lessons = self._parse(f"{self.subdomain}/{course_id}")
+        return self.lessons
+
+
+
+
+
+
 
     
         
