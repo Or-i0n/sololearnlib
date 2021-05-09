@@ -51,7 +51,7 @@ class Courses(_Worker):
         Default course_id is 1073 for python course.
         You can get other course_id from self.get_courses()."""
 
-         # Format of lessons ->
+        # Format of lessons ->
         # {"getCourse":{
         #     "success":true,
         #     "errors":[
