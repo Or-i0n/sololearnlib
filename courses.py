@@ -8,24 +8,6 @@ class Courses(_Worker):
         super().__init__()
         self.subdomain = "/learning"
         self.soup = None
-        self.courses = {}
-        self.lessons = {}
-
-    def _parse(self, subdomain):
-        """Get data out of the course page in json format."""
-
-        self.soup = self._get_soup(subdomain)
-
-        # The data about courses is stored inside a script tag.
-        # Get data out of script tag using regex.
-        scripts = self.soup.find_all("script")
-        for script in scripts:
-            if initial_data := re.search(r"window.initialData = (\{.*\})", str(script)):
-                data = initial_data.group(1)
-                return json.loads(data)
-    
-    def get_courses(self):
-        """Get data about courses available on sololearn."""
 
         # Format of self.courses ->
         # {"getCourses":{
@@ -45,15 +27,9 @@ class Courses(_Worker):
         #         ],
         #         "id":1073
         # }, ...
-        
-        self.courses = self._parse(self.subdomain)
-        return self.courses
+        self.courses = {}
 
-    def get_lessons(self, course_id=1073):
-        """Get lessons of any course, just enter the course_id.
-        Default course_id is 1073 for python course.
-        You can get other course_id from self.get_courses()."""
-
+        # Format of self.lessons ->
         # {"getCourse":{
         #     "success":true,
         #     "errors":[
@@ -97,6 +73,31 @@ class Courses(_Worker):
         #                     ],
         #                     "id":2269
         #                 },
+        self.lessons = {}
+
+    def _parse(self, subdomain):
+        """Get data out of the course page in json format."""
+
+        self.soup = self._get_soup(subdomain)
+
+        # The data about courses is stored inside a script tag.
+        # Get data out of script tag using regex.
+        scripts = self.soup.find_all("script")
+        for script in scripts:
+            if initial_data := re.search(r"window.initialData = (\{.*\})", str(script)):
+                data = initial_data.group(1)
+                return json.loads(data)
+    
+    def get_courses(self):
+        """Get data about courses available on sololearn."""
+
+        self.courses = self._parse(self.subdomain)
+        return self.courses
+
+    def get_lessons(self, course_id=1073):
+        """Get lessons of any course, just enter the course_id.
+        Default course_id is 1073 for python course.
+        You can get other course_id from self.get_courses()."""
 
         self.lessons = self._parse(f"{self.subdomain}/{course_id}")
         return self.lessons
