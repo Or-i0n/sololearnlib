@@ -1,7 +1,7 @@
 from sololearnlib._worker import _Worker
 
 class Discuss(_Worker):
-    def __init__(self) -> None:
+    def __init__(self):
         super().__init__()
         self.subdomain = "/Discuss"
         self.soup = self._get_soup(self.subdomain)
@@ -58,21 +58,24 @@ class Discuss(_Worker):
         
         return details
 
-    def _fill_posts(self, public_codes, ordering) -> None:
+    def _fill_posts(self, public_codes, ordering):
         """Fills code data inside the specified attribute."""
 
         orders = {"Trending": self.trending, 
             "MostRecent": self.most_recent, 
-            "Unasnswered": self.unanswered}
+            "Unanswered": self.unanswered}
         for code in public_codes:
-            details: ParseType2 = self._parse_details(code)
+            details = self._parse_details(code)
             orders[ordering].append(details)
 
     def get_posts(self, ordering="Trending", *, 
         query=""):
-        """Return codes according to ordering, language or query."""
+        """Return codes according to ordering, language or query.
+        ------------------------------------------------------------------------
+        ordering can only be 'Trending', 'MostRecent' or 'Unasnwered'.
+        """
 
-        soup: Soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
+        soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
                             f"query={query}")
 
         questions = soup.find_all("div", {"class", "question"})
