@@ -4,10 +4,8 @@ class Discuss(_Worker):
     def __init__(self):
         super().__init__()
         self.subdomain = "/Discuss"
-        self.soup = self._get_soup(self.subdomain)
-
-        
-        self.hot_today= self._get_hot_today(self.soup)
+        self.soup = None
+        self.hot_today= None
 
         # Format of self.trending ->
         # [{votes: 1184, answers: 24077, title: <Title>, tags: [<Tags>, ...],
@@ -90,3 +88,12 @@ class Discuss(_Worker):
             self._fill_posts(questions, ordering)
             return self.unanswered
         return None
+
+    def get_hot_today(self):
+        """Get codes that are trending on sololearn."""
+        
+        # For performace improvement only load page if not loaded else skip.
+        if not self.soup:
+            self.soup = self._get_soup(self.subdomain)
+
+        return self._get_hot_today(self.soup)
