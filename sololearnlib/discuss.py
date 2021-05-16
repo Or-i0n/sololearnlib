@@ -5,7 +5,6 @@ class Discuss(_Worker):
         super().__init__()
         self.subdomain = "/Discuss"
         self.soup = None
-        self.hot_today= None
 
         # Format of self.trending ->
         # [{votes: 1184, answers: 24077, title: <Title>, tags: [<Tags>, ...],
@@ -73,10 +72,10 @@ class Discuss(_Worker):
         ordering can only be 'Trending', 'MostRecent' or 'Unasnwered'.
         """
 
-        soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
+        self.soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
                             f"query={query}")
 
-        questions = soup.find_all("div", {"class", "question"})
+        questions = self.soup.find_all("div", {"class", "question"})
         
         if ordering == "Trending":
             self._fill_posts(questions, ordering)
