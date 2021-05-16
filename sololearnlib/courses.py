@@ -1,3 +1,7 @@
+#TODO:
+# - Make output of some of the functions more targeted i.e. remove unnecessary
+#   data.
+
 from sololearnlib._worker import _Worker
 import re
 import json
