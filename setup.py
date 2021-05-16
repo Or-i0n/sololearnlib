@@ -1,11 +1,11 @@
 import setuptools 
 
-with open("README.md", "r") as infile:
+with open("README.md", "r", encoding="utf8") as infile:
   readme_file = infile.read()
 
 setuptools.setup(
     name="sololearnlib",
-    version="3.0.0",
+    version="4.0.0",
     author="OR!ON",
     author_email="orionconner00@gmail.com", 
     license="MIT",
