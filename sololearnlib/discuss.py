@@ -1,3 +1,7 @@
+#TODO:
+# - Stop get_posts() from loading data multiple times if same arguments are
+#   given.
+
 from sololearnlib._worker import _Worker
 
 class Discuss(_Worker):
@@ -71,7 +75,6 @@ class Discuss(_Worker):
         ------------------------------------------------------------------------
         ordering can only be 'Trending', 'MostRecent' or 'Unasnwered'.
         """
-
         self.soup = self._get_soup(f"{self.subdomain}?ordering={ordering}&"
                             f"query={query}")
 
