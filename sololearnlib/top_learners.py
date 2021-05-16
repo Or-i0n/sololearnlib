@@ -1,6 +1,3 @@
-#TODO:
-# - get_learderboard() not working with some courses.
-
 from sololearnlib._worker import _Worker
 
 class TopLearners(_Worker):
@@ -49,8 +46,8 @@ class TopLearners(_Worker):
 
         
         for item in items:
-            rank, name, points = item.get_text(separator=",",
-                                               strip=True).split(",")
+            rank, name, points = item.get_text(separator="\t",
+                                               strip=True).split("\t")
             points_int: int = int(points[:-2].strip())
             self.leaderboard[rank] = {"name": name, "points": points_int}
 
