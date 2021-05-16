@@ -21,7 +21,7 @@ class _Worker:
         soup = Soup(self.raw_page, "html.parser")
         return soup
 
-    def _get_hot_today(self, soup: Soup):
+    def _get_hot_today(self, soup):
         """Returns the 'Hot Today' names and links.
         
         Format of self.hot_today:
