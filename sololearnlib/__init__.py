@@ -4,7 +4,7 @@
 from datetime import date
 
 __name__="sololearnlib"
-__version__ = "4.0.0"
+__version__ = "4.0.1"
 __description__="Library that retrieves public data from sololearn.com"
 __author__ = "OR!ON"
 __copyright__ = f"Copyright 2020-{date.today().year}"
