@@ -1,11 +1,15 @@
 import setuptools 
 
-with open("README.md", "r") as infile:
+with open("README.md", "r", encoding="utf8") as infile:
   readme_file = infile.read()
 
 setuptools.setup(
     name="sololearnlib",
+<<<<<<< HEAD
     version="3.0.0",
+=======
+    version="4.0.1",
+>>>>>>> v4.0.0
     author="OR!ON",
     author_email="orionconner00@gmail.com", 
     license="MIT",
@@ -18,7 +22,7 @@ setuptools.setup(
           "bs4",
       ],
   classifiers=[
-    "Development Status :: 3 - Alpha",      
+    "Development Status :: 4 - Beta",      
     "Intended Audience :: Developers",      
     "Topic :: Software Development :: Build Tools",
     "License :: OSI Approved :: MIT License",

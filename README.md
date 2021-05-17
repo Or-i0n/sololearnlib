@@ -1,164 +1,191 @@
-
 # sololearnlib
+<<<<<<< HEAD
 
+=======
+>>>>>>> v4.0.0
 sololearnlib is a library for retrieving public data from [Sololearn](https://www.sololearn.com).
 
 - Easy to use.
-
 - Lightweight.
-
 - Object Oriented.
-
 - Json-compatible data.
 
 # Features
+<<<<<<< HEAD
 
+=======
+>>>>>>> v4.0.0
 - Retrieve Blog articles.
-
 - Get Leaderboard data.
-
 - Retrieve 'Hot Today' codes from Code Playground.
-
 - Find out what are the trending, most recent and most popular codes.
-
 - Get courses info and lessons data.
-
 - Retrieve 'Hot Today' discussions.
-
 - Find out what are the trending, most recent and unanswered discussions.
 
 ### Tech
+<<<<<<< HEAD
 
 sololearnlib just uses [bs4](https://pypi.org/project/bs4/) (BeautifulSoup4).
 
 ### Installation
 
+=======
+sololearn just uses [bs4](https://pypi.org/project/bs4/) (BeautifulSoup4).
+
+### Installation
+>>>>>>> v4.0.0
 sololearnlib requires [Python 3](https://www.python.org/) v3.5+ to run.
 
 ```sh
-
 $ pip install sololearnlib
-
 ```
-
 ### Usage
 #### Retrieve *Blog* data
 - Import
-```py
-from sololearnlib.sololearn import Blog
-```
 
+```py
+from sololearnlib import Blog
+```
 - Create a class object.
+
 ```py
 blog = Blog()
 ```
 
+<<<<<<< HEAD
 - After creating an object you can use some of its attributes.
 ```py
 print(blog.domain)
 # "https://www.sololearn.com"
 ```
+=======
+>>>>>>> v4.0.0
 - Using methods/functions
+
 ```py
+# Get data about all the articles.
 articles = blog.get_articles()
-# [{'article_link': '/Blog/73/habit-formi...-learning/', 'content': ' \xa0For most of us, th...ss time.\xa0 ', 'date': '07 August 2020', 'image_link': 'https://api.sololear...ning_1.jpg', 'title': 'Habit-Forming Learni...d Learning'}, ...]
+# [{'id': 175, 'date': '2021-05-15T00:00:00.000Z', 'topic': 'Insights', 'title': 'The Growth of Learni...on Mobile ', 'content': 'What is responsible ... industry.', 'article_link': '/Blog/175', 'image_link': 'https://api.sololear...log_01.jpg'}, ...]
 
 # Get the link of first article.
 article_link = articles[0]["article_link"]
-# '/Blog/73/habit-forming-learning-vs-forced-learning/'
+# '/Blog/175'
 
+# Get the full text of an article.
 full_text = blog.get_full_article(article_link)
-# '\n\nDo you struggle when learning new things? Most people do -- even when receiving a formal education in school or attending college, it can be hard to make new concepts stick. ...'
+# 'The COVID-19 pandemic has upended much of what was considered normal and routine in everyday life around the globe. Business, healthcare, transportation, travel - the massive disruptions in industries ...'
 ```
+
 #### Retrieve Code Playground Data
-  - Import
+
+- Import
+
 ```py
-from sololearnlib.sololearn import CodePlayground
+from sololearnlib import CodePlayground
 ```
 
 - Create a class object.
+
 ```py
 ground = CodePlayground()
 ```
-- After creating an object you can use some of its attributes.
-```py
-print(ground.hot_today)
-# [{'Web Dev Quiz': 'https://code.sololea...zpmPj7kP/#'}, ...]
-```
+
 - Using methods/functions
+
 ```py
+# Get hot codes.
+hot = ground.get_hot_today()
+# [{'😄Pure css Emoji😄😊': 'https://code.sololearn.com/WVo6hshrJ3p6/#'}, {'⚔️Assasin Custom UI Cover ⚔️': 'https://code.sololearn.com/WdNImK2M9ush/#'}, ...]
+
+# Get all other codes.
 codes = ground.get_codes()
-# [{'author_link': '/Profile/12942084', 'author_name': 'Aakaanksha 💕', 'code_link': 'https://code.sololea...oj07HPmq/#', 'code_name': 'Google Clone or Real? 😳💕', 'data_date': '8/9/2020 7:36:06 AM', 'votes': 1146},  ...]
+# [{'code_link': 'https://code.sololearn.com/WZmG081162lG/#', 'code_name': 'Water sort puzzle game 🔥', 'votes': 638, 'author_name': 'Namit Jain [INACTIVE]', 'author_link': '/Profile/18109487', 'data_date': '4/23/2021 6:17:25 AM'}, ...]
 ```
+
 #### Retrieve Courses Data
- - Import
+- Import
+
 ```py
-from sololearnlib.sololearn import Courses
+from sololearnlib import Courses
 ```
+
 - Create a class object.
 ```py
 courses = Courses()
 ```
-- After creating an object you can use some of its attributes.
-```py
-print(courses.courses)
-# {'c': {'counts': {...}, 'description': '\nOur C tutorial cove...uch more.\n', 'icon': '/Icons/Courses/1089.png', 'link': '/Course/C/', 'title': 'C Tutorial'}, ...}
-```
+
 - Using methods/functions
+
 ```py
+# Get a list of all the available courses.
+course_list = courses.get_courses()
+# {'getCourses': {'success': True, 'errors': [...], 'data': [...]}}
+
+# Get lessons of a course.
 lessons = courses.get_lessons("python")
-# {'Basic Concepts': ['Welcome to Python', 'Your First Program', 'Simple Operations', 'Floats', 'Other Numerical Operations', 'Strings', 'String Operations', 'Variables', 'Taking User Input', ...], ...}
+# {'getCourse': {'success': True, 'errors': [...], 'data': {...}}}
+
 ```
 
 #### Retrieve Discuss Data
- - Import
+- Import
+
 ```py
-from sololearnlib.sololearn import Discuss
+from sololearnlib import Discuss
 ```
+
 - Create a class object.
+
 ```py
 dis = Discuss()
 ```
-- After creating an object you can use some of its attributes.
-```py
-print(dis.hot_today)
-# [{'[SOLVED]C++ Challenge problem': '/Discuss/2437254/sol...e-problem/'}, {'[Solved] Does Earnin...ves us XP?': '/Discuss/2437589/sol...ves-us-xp/'}, ...]
-```
+
 - Using methods/functions
+
 ```py
+# Get posts available for discussion.
 posts = dis.get_posts()
-# [{'answers': '24716', 'author_link': '/Profile/5056131/', 'author_name': 'benka', 'avatar_link': 'https://avatars.solo...b873e5.jpg', 'data_date': '7/6/2017 5:02:16 PM', 'post_link': '/Discuss/516185/мног...оговорящих', 'tags': [...], 'title': 'много ли тут нас, ру...говорящих?', 'votes': '1199'}, ...]
+# [{'votes': '0', 'answers': '0', 'post_link': '/Discuss/2760604/trying-to-pull-individual-values-from-a-dataframe-but-pulls-arrays-instead', 'title': 'Trying to pull individual values from a dataframe but pulls arrays instead', 'tags': [...], 'author_name': 'Hernando Abella', 'author_link': '/Profile/1478871/', 'data_date': '4/20/2021 4:12:36 PM', 'avatar_link': 'https://blob.sololearn.com/avatars/e97c267a-e433-4c47-81f3-6d32dcd30570.jpg'}, ...]
+
+# Trending topics on discussions.
+hot_discuss = dis.get_hot_today()
+# [{'Can we obtain graphs in node code here at sololearn ?': '/Discuss/2784363/can-we-obtain-graphs-in-node-code-here-at-sololearn/'}, {'Why R code is necessary?': '/Discuss/2784479/why-r-code-is-necessary/'}, ...]
+
 ```
+
 #### Retrieve Top Learners Data
- - Import
+- Import
+
 ```py
-from sololearnlib.sololearn import TopLearners
+from sololearnlib import TopLearners
 ```
+
 - Create a class object.
+
 ```py
 top = TopLearners()
 ```
+
 - After creating an object you can use some of its attributes.
+
 ```py
 print(top.courses)
 # {'c': {'link': '/Leaderboard/C', 'title': 'C Tutorial'}, ...}
 
-print(top.leaderboard)
-# {'1': {'name': 'JΞΜΔ 🇨🇩👑', 'points': 1070064}, ...}
-
 print(top.leaderboard_title)
 # 'Global Leaderboard'
 ```
+
 - Using methods/functions
+
 ```py
-board = top.get_leaderboard("python")
-# {'1': {'name': '👑 Prometheus 🇸🇬', 'points': 193985}, ...}
+# List of user who top the 'react' leaderboard.
+board = top.get_leaderboard("react")
+# {'1': {'name': 'Arthur', 'points': 2000}, '2': {'name': 'Accountz5', 'points': 794}, '3': {'name': 'Hayk Tester1', 'points': 760}, ...}
 ```
 
-
 ### Development
-
-  
 
 Want to contribute? Great!
 
@@ -166,28 +193,21 @@ Head toward the github repository:
 
 -  [sololearnlib](https://github.com/Or-i0n/sololearnlib)
 
-  
-
 ### Todos
-
-  
 
 - Write MORE Tests.
 
 - Add error handling.
 
+
 - Make retrieval time faster.
 
-  
 
 License
 
 ----
 
-  
-
 MIT
 
-  
 
 **Free Software, Hell Yeah!**
