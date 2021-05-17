@@ -1,8 +1,4 @@
 # sololearnlib
-<<<<<<< HEAD
-
-=======
->>>>>>> v4.0.0
 sololearnlib is a library for retrieving public data from [Sololearn](https://www.sololearn.com).
 
 - Easy to use.
@@ -11,10 +7,6 @@ sololearnlib is a library for retrieving public data from [Sololearn](https://ww
 - Json-compatible data.
 
 # Features
-<<<<<<< HEAD
-
-=======
->>>>>>> v4.0.0
 - Retrieve Blog articles.
 - Get Leaderboard data.
 - Retrieve 'Hot Today' codes from Code Playground.
@@ -24,17 +16,9 @@ sololearnlib is a library for retrieving public data from [Sololearn](https://ww
 - Find out what are the trending, most recent and unanswered discussions.
 
 ### Tech
-<<<<<<< HEAD
-
-sololearnlib just uses [bs4](https://pypi.org/project/bs4/) (BeautifulSoup4).
-
-### Installation
-
-=======
 sololearn just uses [bs4](https://pypi.org/project/bs4/) (BeautifulSoup4).
 
 ### Installation
->>>>>>> v4.0.0
 sololearnlib requires [Python 3](https://www.python.org/) v3.5+ to run.
 
 ```sh
@@ -53,14 +37,6 @@ from sololearnlib import Blog
 blog = Blog()
 ```
 
-<<<<<<< HEAD
-- After creating an object you can use some of its attributes.
-```py
-print(blog.domain)
-# "https://www.sololearn.com"
-```
-=======
->>>>>>> v4.0.0
 - Using methods/functions
 
 ```py
