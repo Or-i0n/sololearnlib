@@ -9,11 +9,6 @@ __description__="Library that retrieves public data from sololearn.com"
 __author__ = "OR!ON"
 __copyright__ = f"Copyright 2020-{date.today().year}"
 __license__ = "MIT"
-<<<<<<< HEAD
-__version__ = "3.0.0"
-__maintainer__ = "OR!ON"
-__status__ = "Stable"
-=======
 __maintainer__ = "OR!ON"
 __status__ = "Beta"
 
@@ -22,4 +17,4 @@ from sololearnlib.code_playground import CodePlayground
 from sololearnlib.courses import Courses
 from sololearnlib.discuss import Discuss
 from sololearnlib.top_learners import TopLearners
->>>>>>> v4.0.0
+
