@@ -38,16 +38,3 @@ class Blog(_Worker):
             jsoned_data = json.loads(replaced)
 
             return jsoned_data
-
-    def get_full_article(self, article_link):
-        """Returns the full text of an article."""
-
-        article = self._get_soup(article_link)
-
-        # Parse raw article data from javascript
-        article_content = {}
-        for script in article.find_all("script"):
-            if data := re.findall(r"window.initialData = (\{.*\})", str(script)):
-                article_content = json.loads(data[0])["getBlogPost"]["data"]
-        cleaned = Soup(article_content["fullContent"], "html.parser")
-        return cleaned.get_text()
