@@ -15,32 +15,29 @@ class Blog(_Worker):
     def get_articles(self):
         """Returns the article info about the latest blog posts.
         Format of article info ->
-        [{"id": <ID>, "date": <Date>, "topic": <Topic>,
-          "title": "<Title>, "content": <Content>,
-          "article_link": <ArticleLink>, "image_link": <ImageLink>},
-          ...]"""
+       {'getTopics': {'success': 1, 'errors': [...], 'data': [...]}, 
+       'getBlogPosts': {'paging': {...}, 'success': 1, 'errors': [...], 'data': [...]}}"""
 
         self.soup = self._get_soup(self.subdomain)
 
-        # Parse raw article data from javascript.
-        # (JSON data of blog posts within script tags)
-        for script in self.soup.find_all("script"):
-            if data := re.findall(r"\"getBlogPosts\".+\"data\":(\[.*\])", str(script)):
-                raw_articles = data[0]
+        regex_data = r"window.initialData=(\{.+\})</script>"
+        match = re.search(regex_data, str(self.soup))
+    
+        if match:
+            # Convert javascript dictionary into json.
+            # Add double quote to the keys {key: "value"} => {"key": "value"}.
+            key_regex = r'({|,)(\w+):'
+            replaced = re.sub(key_regex, r'\1"\2":', match.group(1))
+            # Replace invalid value.
+            replaced = replaced.replace("!0", "1")
+            # Replace single quote (') with doubl quote (").
+            replaced = replaced.replace("'", '"')
+            # Replace annoyoing tag. 
+            replaced = replaced.replace('<span style="font-weight: 400;">', "")
+            
+            jsoned_data = json.loads(replaced)
 
-        article_list = []
-        # Process the raw data and get the details
-        for article in json.loads(raw_articles):
-            blog = {}
-            blog["id"] = article["id"]
-            blog["date"] = article["createdDate"]
-            blog["topic"] = article["topicName"]
-            blog["title"] = article["title"]
-            blog["content"] = article["metaDescription"]
-            blog["article_link"] = f"/Blog/{blog['id']}"
-            blog["image_link"] = article["mainImageUrl"]
-            article_list.append(blog)
-        return article_list
+            return jsoned_data
 
     def get_full_article(self, article_link):
         """Returns the full text of an article."""
